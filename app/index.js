@@ -5,6 +5,8 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import Back from '../assets/background.svg';
 import Logo from '../assets/logo.svg';
 import { useFonts } from 'expo-font';
+import CryptoJS from 'crypto-js';
+import { Base64 } from 'js-base64';
 
 export default function App() {
 
@@ -15,8 +17,23 @@ export default function App() {
   const [hasPermission, setHasPermission] = useState(null);
   const [data, setdata] = useState({})
   const [scanned, setScanned] = useState(false);
+  const secret = 'VTA5TVZVTkpUMDVGVTBkTVQwSkJUQT09LFFrOU1WRUZKVGxaRlRsUkJVa2xQVXpJd01qTlRSVU5TUlZSTFJWazlQVDA9'
 
-
+  function decrypt(str) {
+    try {
+        var _strkey = Base64.decode(secret);
+        var reb64 = CryptoJS.enc.Hex.parse(str);
+        var text = reb64.toString(CryptoJS.enc.Base64);
+        var Key = CryptoJS.enc.Base64.parse(_strkey.split(",")[1]); //secret key
+        var IV = CryptoJS.enc.Base64.parse(_strkey.split(",")[0]); //16 digit
+        var decryptedText = CryptoJS.AES.decrypt(text, Key, { keySize: 128 / 8, iv: IV, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 });
+        var str = decryptedText.toString(CryptoJS.enc.Utf8); //binascii.unhexlify(decryptedText)
+        str = str.substring(str.indexOf("{"))
+        return str
+    } catch (e) {
+        console.log("Error", e)
+    }
+}
 
   useEffect(() => {
     const getBarCodeScannerPermissions = async () => {

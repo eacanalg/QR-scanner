@@ -6,6 +6,7 @@
     "web": "expo start --web"
   },
   "dependencies": {
+    "aws-amplify": "^5.2.5",
     "crypto-js": "^4.1.1",
     "expo": "^48.0.7",
     "expo-barcode-scanner": "~12.3.2",
@@ -14,6 +15,7 @@
     "expo-router": "^1.2.0",
     "expo-splash-screen": "~0.18.1",
     "expo-status-bar": "~1.4.2",
+    "js-base64": "^3.7.5",
     "jspdf": "^2.5.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
