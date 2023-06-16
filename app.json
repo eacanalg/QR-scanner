@@ -5,6 +5,17 @@
       "bundler": "metro"
     },
     "name": "QR-scanner",
-    "slug": "QR-scanner"
+    "slug": "QR-scanner",
+    "extra": {
+      "eas": {
+        "projectId": "79b9e2be-143b-4d86-8800-e60b9be9b31d"
+      }
+    },
+    "android": {
+      "package": "com.eacanalg88.QRscanner"
+    },
+    "ios": {
+      "bundleIdentifier": "com.eacanalg88.QRscanner"
+    }
   }
 }
