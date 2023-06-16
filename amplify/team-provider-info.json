@@ -10,6 +10,11 @@
       "StackName": "amplify-qrscanner-dev-114546",
       "StackId": "arn:aws:cloudformation:us-east-1:809660409344:stack/amplify-qrscanner-dev-114546/97cded70-0489-11ee-ae33-12d516508e01",
       "AmplifyAppId": "d3cso168isatyt"
+    },
+    "categories": {
+      "api": {
+        "qrscanner": {}
+      }
     }
   }
 }

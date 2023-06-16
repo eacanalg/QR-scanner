@@ -13,7 +13,7 @@ type EagerItem = {
   };
   readonly id: string;
   readonly name?: string | null;
-  readonly category?: string | null;
+  readonly description?: string | null;
   readonly status?: string | null;
   readonly assigned?: string | null;
   readonly location?: string | null;
@@ -30,7 +30,7 @@ type LazyItem = {
   };
   readonly id: string;
   readonly name?: string | null;
-  readonly category?: string | null;
+  readonly description?: string | null;
   readonly status?: string | null;
   readonly assigned?: string | null;
   readonly location?: string | null;

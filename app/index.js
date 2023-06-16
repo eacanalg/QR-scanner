@@ -1,20 +1,19 @@
 import { useEffect, useState } from 'react';
-import { Button, StyleSheet, Text, View, Image } from 'react-native';
+import { Button, StyleSheet, Text, View, Image, ScrollView, useWindowDimensions } from 'react-native';
 import { BarCodeScanner } from 'expo-barcode-scanner';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import Back from '../assets/background.svg';
 import Logo from '../assets/logo.svg';
-import { useFonts } from 'expo-font';
 import CryptoJS from 'crypto-js';
 import { Base64 } from 'js-base64';
+import { DataStore } from 'aws-amplify';
+import { Item } from '../src/models'
+
 
 export default function App() {
 
-  const [fontsLoaded] = useFonts({
-    'Ogirema': require('../assets/Ogirema.ttf'),
-  });
-
   const [hasPermission, setHasPermission] = useState(null);
+  const {height, width} = useWindowDimensions();
   const [data, setdata] = useState({})
   const [scanned, setScanned] = useState(false);
   const secret = 'VTA5TVZVTkpUMDVGVTBkTVQwSkJUQT09LFFrOU1WRUZKVGxaRlRsUkJVa2xQVXpJd01qTlRSVU5TUlZSTFJWazlQVDA9'
@@ -41,29 +40,40 @@ export default function App() {
       setHasPermission(status === 'granted');
     };
     getBarCodeScannerPermissions();
-  }, []);
+  }, []);  
 
   const handleBarCodeScanned = ({ type, data }) => {
-    setScanned(true);
-    setdata(JSON.parse(data));
+    try {
+      const parsed = JSON.parse(decrypt(data))
+      if (parsed.type === 'offline'){
+        setdata(parsed)
+      } else {
+        DataStore.query(Item, parsed.id).then((ans) => {
+          setdata(ans)
+        }).catch((e) => console.log('e: ', e))
+      }
+      setScanned(true);
+    } catch (error) {
+      setScanned(false)
+    }
+    
   };
 
   return (
-    <View style={styles.container}>
+    <ScrollView style={{height: height, width: width, padding: 0, margin: 0}}>
       {data?.name ? <View style={styles.container}>
-        <Back />
-        <View style={{ width: '100%', backgroundColor: 'transparent', position: 'absolute', maxHeight: 250, top:30, alignItems: 'center' }}>
-          <Logo />
-          <View style={{ height: 150, width: 150, borderRadius: 75, backgroundColor: 'white', top: 30 }}>
-            <Image source={{uri: data.image}} height={150} width={150}/>
+        <Back viewBox="0 100 1125 899" width={width} height={width * 0.8} style={{ marginBottom: 30 }} />
+        <View style={{ width: '100%', position: 'absolute',  paddingTop:30, alignItems: 'center' }}>
+          <Logo viewBox="0 0 727 268" width={width * 0.7} height={width * 0.3} />
+          <View style={{ height: 150, width: 150, borderRadius: 75, backgroundColor: 'white', top: 30, overflow: 'hidden', alignItems: 'center', justifyContent: 'center' }}>
+            <Image style={{ width: 150, height: 150, flex: 1 }} source={{uri: data.image}} contentFit="contain" />
           </View>
           <View style={{ height: 25, width: 25, borderRadius: 13, backgroundColor: 'rgb(181, 181, 181)', top: 0, left: 45, alignItems: 'center', justifyContent: 'center' }}>
             <Ionicons name="add" size={24} color="white" />
           </View>
         </View>
         <TextEntry title={'Nombre: '} content={data.name} />
-        <TextEntry title={'Categoria: '} content={data.category} />
-        <TextEntry title={'Cantidad: '} content={data.amount} />
+        <TextEntry title={'Descripción: '} content={data.description} />
         <TextEntry title={'Estado: '} content={data.status} />
         <TextEntry title={'Encargado: '} content={data.assigned} />
         <TextEntry title={'Ubicación: '} content={data.location} />
@@ -76,7 +86,7 @@ export default function App() {
         onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
         style={styles.camera}
       />}
-    </View>
+    </ScrollView>
   );
 }
 
@@ -90,11 +100,10 @@ const TextEntry = ({title, content}) => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    width: '100%',
     backgroundColor: 'rgb(244, 244, 244)',
     alignItems: 'center',
     paddingBottom: 5,
+    overflow: 'scroll'
   },
   camera: {
     flex: 1,

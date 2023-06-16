@@ -17,8 +17,8 @@ export const schema = {
                     "isRequired": false,
                     "attributes": []
                 },
-                "category": {
-                    "name": "category",
+                "description": {
+                    "name": "description",
                     "isArray": false,
                     "type": "String",
                     "isRequired": false,
@@ -88,6 +88,6 @@ export const schema = {
     },
     "enums": {},
     "nonModels": {},
-    "codegenVersion": "3.4.3",
-    "version": "6e46bbea4d2ad220bf11aeb5b02abdcd"
+    "codegenVersion": "3.4.4",
+    "version": "25cf2b87397f361dcfbb49ecc3b73f35"
 };
