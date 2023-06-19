@@ -60,7 +60,7 @@ export default function App() {
   };
 
   return (
-    <ScrollView style={{height: height, width: width, padding: 0, margin: 0}}>
+    <ScrollView style={{backgroundColor: 'transparent', width: width, height: height}} contentContainerStyle={{height: '100%'}}>
       {data?.name ? <View style={styles.container}>
         <Back viewBox="0 100 1125 899" width={width} height={width * 0.8} style={{ marginBottom: 30 }} />
         <View style={{ width: '100%', position: 'absolute',  paddingTop:30, alignItems: 'center' }}>
@@ -103,7 +103,8 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgb(244, 244, 244)',
     alignItems: 'center',
     paddingBottom: 5,
-    overflow: 'scroll'
+    overflow: 'scroll',
+    flex: 1
   },
   camera: {
     flex: 1,
