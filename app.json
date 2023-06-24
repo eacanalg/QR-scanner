@@ -5,7 +5,6 @@
       "bundler": "metro"
     },
     "name": "SGSAS-QRs",
-    "icon": "./assets/icon.jpg",
     "slug": "QR-scanner",
     "extra": {
       "eas": {
