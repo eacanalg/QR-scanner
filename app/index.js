@@ -82,7 +82,7 @@ export default function App() {
           setdata({})
           setScanned(false)
           }} />
-      </View> : <BarCodeScanner
+      </View> : hasPermission && <BarCodeScanner
         onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
         style={styles.camera}
       />}
