@@ -16,7 +16,11 @@
       "package": "com.eacanalg88.QRscanner"
     },
     "ios": {
-      "bundleIdentifier": "com.eacanalg88.QRscanner"
+      "bundleIdentifier": "com.eacanalg88.QRscanner",
+      "buildNumber": "1.0.3",
+      "infoPlist": {
+        "NSCameraUsageDescription": "This app requires access to the camera in order to scan QR codes"
+      }
     }
   }
 }

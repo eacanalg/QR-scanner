@@ -60,33 +60,36 @@ export default function App() {
   };
 
   return (
-    <ScrollView style={{backgroundColor: 'transparent', width: width, height: height}} contentContainerStyle={{height: '100%'}}>
-      {data?.name ? <View style={styles.container}>
-        <Back viewBox="0 100 1125 899" width={width} height={width * 0.8} style={{ marginBottom: 30 }} />
-        <View style={{ width: '100%', position: 'absolute',  paddingTop:30, alignItems: 'center' }}>
-          <Logo viewBox="0 0 727 268" width={width * 0.7} height={width * 0.3} />
-          <View style={{ height: 150, width: 150, borderRadius: 75, backgroundColor: 'white', top: 30, overflow: 'hidden', alignItems: 'center', justifyContent: 'center' }}>
-            <Image style={{ width: 150, height: 150, flex: 1 }} source={{uri: data.image}} contentFit="contain" />
+    <View style={{height: height, width: width, overflow: 'hidden'}}>
+      {!data?.name ? <ScrollView style={{backgroundColor: 'transparent', width: '100%', flex: 1}} contentContainerStyle={{flex: 0}}>
+         <View style={styles.container}>
+          <Back viewBox="0 100 1125 899" width={width} height={width * 0.8} style={{ marginBottom: 30 }} />
+          <View style={{ width: '100%', position: 'absolute',  paddingTop:30, alignItems: 'center' }}>
+            <Image style={{ height: width*0.3, width: width*0.7 }} resizeMode='contain' tintColor="#ffffff" source={require('../assets/logo.png')} />
+            {/* <Logo viewBox="0 0 727 268" width={width * 0.7} height={width * 0.3} /> */}
+            <View style={{ height: 150, width: 150, borderRadius: 75, backgroundColor: 'white', top: 5, overflow: 'hidden', alignItems: 'center', justifyContent: 'center' }}>
+              <Image style={{ width: 150, height: 150, flex: 1 }} source={{uri: data.image}} contentFit="contain" />
+            </View>
+            {/* <View style={{ height: 25, width: 25, borderRadius: 13, backgroundColor: 'rgb(181, 181, 181)', top: 0, left: 45, alignItems: 'center', justifyContent: 'center' }}>
+              <Ionicons name="add" size={24} color="white" />
+            </View> */}
           </View>
-          <View style={{ height: 25, width: 25, borderRadius: 13, backgroundColor: 'rgb(181, 181, 181)', top: 0, left: 45, alignItems: 'center', justifyContent: 'center' }}>
-            <Ionicons name="add" size={24} color="white" />
-          </View>
-        </View>
-        <TextEntry title={'Nombre: '} content={data.name} />
-        <TextEntry title={'Descripción: '} content={data.description} />
-        <TextEntry title={'Estado: '} content={data.status} />
-        <TextEntry title={'Encargado: '} content={data.assigned} />
-        <TextEntry title={'Ubicación: '} content={data.location} />
-        <TextEntry title={'Observaciones: '} content={data.observations} />
-        <Button title={'Volver a leer'} color={'rgb(83, 98, 55)'} onPress={() => {
-          setdata({})
-          setScanned(false)
-          }} />
-      </View> : hasPermission && <BarCodeScanner
-        onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
-        style={styles.camera}
-      />}
-    </ScrollView>
+          <TextEntry title={'Nombre: '} content={data.name} />
+          <TextEntry title={'Descripción: '} content={data.description} />
+          <TextEntry title={'Estado: '} content={data.status} />
+          <TextEntry title={'Encargado: '} content={data.assigned} />
+          <TextEntry title={'Ubicación: '} content={data.location} />
+          <TextEntry title={'Observaciones: '} content={data.observations} />
+          <Button title={'Volver a leer'} color={'rgb(83, 98, 55)'} onPress={() => {
+            setdata({})
+            setScanned(false)
+            }} />
+        </View> 
+      </ScrollView> : hasPermission && <View style={{ height: height, width: width }}><BarCodeScanner
+          onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
+          style={styles.camera}
+        /></View>}
+    </View>
   );
 }
 
@@ -103,8 +106,8 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgb(244, 244, 244)',
     alignItems: 'center',
     paddingBottom: 5,
-    overflow: 'scroll',
-    flex: 1
+    height: '100%',
+    paddingBottom: 32,
   },
   camera: {
     flex: 1,
