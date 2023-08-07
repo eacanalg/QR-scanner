@@ -1,5 +1,6 @@
 {
   "expo": {
+    "version": "1.2",
     "scheme": "acme",
     "web": {
       "bundler": "metro"
@@ -17,7 +18,7 @@
     },
     "ios": {
       "bundleIdentifier": "com.eacanalg88.QRscanner",
-      "buildNumber": "1.0.3",
+      "buildNumber": "1.0.4",
       "infoPlist": {
         "NSCameraUsageDescription": "This app requires access to the camera in order to scan QR codes"
       }

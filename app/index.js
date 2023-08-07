@@ -61,7 +61,7 @@ export default function App() {
 
   return (
     <View style={{height: height, width: width, overflow: 'hidden'}}>
-      {!data?.name ? <ScrollView style={{backgroundColor: 'transparent', width: '100%', flex: 1}} contentContainerStyle={{flex: 0}}>
+      {data?.name ? <ScrollView style={{backgroundColor: 'transparent', width: '100%', flex: 1}} contentContainerStyle={{flex: 0}}>
          <View style={styles.container}>
           <Back viewBox="0 100 1125 899" width={width} height={width * 0.8} style={{ marginBottom: 30 }} />
           <View style={{ width: '100%', position: 'absolute',  paddingTop:30, alignItems: 'center' }}>
