@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
-import { Button, StyleSheet, Text, View, Image, ScrollView, useWindowDimensions } from 'react-native';
+import { Button, StyleSheet, Text, View, Image, ScrollView, useWindowDimensions, Modal, Pressable } from 'react-native';
 import { BarCodeScanner } from 'expo-barcode-scanner';
-import Ionicons from '@expo/vector-icons/Ionicons';
 import Back from '../assets/background.svg';
 import Logo from '../assets/logo.svg';
+import Ionicons from '@expo/vector-icons/Ionicons';
 import CryptoJS from 'crypto-js';
 import { Base64 } from 'js-base64';
 import { DataStore } from 'aws-amplify';
@@ -16,6 +16,7 @@ export default function App() {
   const {height, width} = useWindowDimensions();
   const [data, setdata] = useState({})
   const [scanned, setScanned] = useState(false);
+  const [modal, setmodal] = useState(false);
   const secret = 'VTA5TVZVTkpUMDVGVTBkTVQwSkJUQT09LFFrOU1WRUZKVGxaRlRsUkJVa2xQVXpJd01qTlRSVU5TUlZSTFJWazlQVDA9'
 
   function decrypt(str) {
@@ -60,16 +61,27 @@ export default function App() {
   };
 
   return (
-    <View style={{height: height, width: width, overflow: 'hidden'}}>
+    <View style={{height: height, width: width, overflow: 'hidden', backgroundColor: 'rgb(244, 244, 244)',}}>
       {data?.name ? <ScrollView style={{backgroundColor: 'transparent', width: '100%', flex: 1}} contentContainerStyle={{flex: 0}}>
+         <Modal visible={modal} animationType="fade" style={{backgroundColor: 'black', width: '100%', height: '100%'}}>
+            <Pressable 
+              onPress={() => setmodal(false)}
+              style={{ height: 25, width: 25, borderRadius: 13, backgroundColor: 'rgb(63, 63, 63)', top: 20, right: 20, alignItems: 'center', justifyContent: 'center', position: 'absolute' }}
+            >
+              <Ionicons name="close" size={24} color="white" />
+            </Pressable>
+            <Image style={{alignSelf: 'center', width: '85%', height: '85%', flex: 1 }} source={{uri: data.image}} resizeMode="contain" />
+         </Modal>
          <View style={styles.container}>
           <Back viewBox="0 100 1125 899" width={width} height={width * 0.8} style={{ marginBottom: 30 }} />
           <View style={{ width: '100%', position: 'absolute',  paddingTop:30, alignItems: 'center' }}>
             <Image style={{ height: width*0.3, width: width*0.7 }} resizeMode='contain' tintColor="#ffffff" source={require('../assets/logo.png')} />
             {/* <Logo viewBox="0 0 727 268" width={width * 0.7} height={width * 0.3} /> */}
-            <View style={{ height: 150, width: 150, borderRadius: 75, backgroundColor: 'white', top: 5, overflow: 'hidden', alignItems: 'center', justifyContent: 'center' }}>
-              <Image style={{ width: 150, height: 150, flex: 1 }} source={{uri: data.image}} contentFit="contain" />
-            </View>
+            <Pressable onPress={() => setmodal(true)}>
+              <View style={{ height: 150, width: 150, borderRadius: 75, backgroundColor: 'white', top: 5, overflow: 'hidden', alignItems: 'center', justifyContent: 'center' }}>
+                <Image style={{ width: 150, height: 150, flex: 1 }} source={{uri: data.image}} contentFit="contain" />
+              </View>
+            </Pressable>
             {/* <View style={{ height: 25, width: 25, borderRadius: 13, backgroundColor: 'rgb(181, 181, 181)', top: 0, left: 45, alignItems: 'center', justifyContent: 'center' }}>
               <Ionicons name="add" size={24} color="white" />
             </View> */}
